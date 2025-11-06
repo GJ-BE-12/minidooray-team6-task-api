@@ -29,12 +29,8 @@ public class Project extends BaseTimeEntity {
     @Column(name = "status")
     private ProjectStatus status;
 
-    @Column(name = "admin_account_id")
+    @Column(name = "admin_account_id", nullable = false)
     private Long adminAccountId;
-
-
-    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<ProjectMember> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Milestone> milestones = new ArrayList<>();
