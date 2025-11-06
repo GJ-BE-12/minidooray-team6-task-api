@@ -1,5 +1,6 @@
 package com.nhnacademy.taskAPI.repository;
 
+import com.nhnacademy.taskAPI.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TagRepository<Tag> extends JpaRepository<Tag, Long>{}
+public interface TagRepository extends JpaRepository<Tag, Long>{}
