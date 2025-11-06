@@ -1,6 +1,5 @@
 package com.nhnacademy.taskAPI.entity.dto;
 
-import com.nhnacademy.taskAPI.entity.Project;
 import com.nhnacademy.taskAPI.entity.ProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
