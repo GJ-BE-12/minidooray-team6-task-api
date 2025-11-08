@@ -26,9 +26,6 @@ public class ProjectMember {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    /**
-     * Service에서 새 멤버 추가를 위한 생성자
-     */
     public ProjectMember(Project project, Long accountId) {
         this.project = project;
         this.accountId = accountId;

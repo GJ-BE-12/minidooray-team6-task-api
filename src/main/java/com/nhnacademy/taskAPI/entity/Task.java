@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,21 +40,15 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "milestone_id")
+    @Setter
     private Milestone milestone;
 
-    //ON DELETE CASCADE
-    // Task 삭제시 Comment도 함께 삭제
     @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    //ON DELETE CASCADE
-    // Task 삭제시 TaskTag도 함께 삭제
     @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TaskTag> taskTags = new ArrayList<>();
 
-    /**
-     * Service에서 새 Task 생성을 위한 생성자
-     */
     public Task(Project project, Long creatorId, String title, String content, Milestone milestone) {
         this.project = project;
         this.creatorId = creatorId;

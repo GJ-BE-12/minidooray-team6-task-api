@@ -33,7 +33,6 @@ public class Project {
     @Column(name = "admin_id")
     private Long adminId;
 
-    //Project 삭제시 하위 엔티티 모두 삭제
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ProjectMember> members = new ArrayList<>();
 

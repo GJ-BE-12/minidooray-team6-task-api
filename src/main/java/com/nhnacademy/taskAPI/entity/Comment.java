@@ -31,9 +31,7 @@ public class Comment {
     @JoinColumn(name = "task_id")
     private Task task;
 
-    /**
-     * Service에서 새 Comment 생성을 위한 생성자
-     */
+
     public Comment(Task task, Long writerId, String content) {
         this.task = task;
         this.writerId = writerId;
