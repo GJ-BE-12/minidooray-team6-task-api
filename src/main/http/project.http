@@ -38,3 +38,29 @@ X-USER-ID: 1
 ### [D] 프로젝트 삭제 (1번 프로젝트)
 DELETE http://localhost:8082/projects/1
 X-USER-ID: 1
+
+
+
+### [C] tag 생성
+POST http://localhost:8082/projects/1/tags
+X-USER-ID: 1
+Content-Type: application/json
+
+{
+  "name": "태그"
+}
+
+
+### [D] tag 삭제
+DELETE http://localhost:8082/tags/1
+X-USER-ID: 1
+
+
+### [U] tag 업데이트
+PUT http://localhost:8082/tags/5
+X-USER-ID: 1
+Content-Type: application/json
+
+{
+    "name": "수정"
+}

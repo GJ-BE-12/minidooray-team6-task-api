@@ -17,6 +17,5 @@ public interface ProjectService {
     List<ProjectResponseDto> getMyProjects(Long accountId);
     ProjectResponseDto updateProject(Long adminId, Long projectId, ProjectUpdateDto requestDto);
     void deleteProject(Long adminId, Long projectId);
-\
     ProjectResponseDto updateProjectStatus(Long adminId, Long projectId, ProjectStatusUpdateDto requestDto);
 }
