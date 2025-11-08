@@ -1,37 +1,42 @@
 package com.nhnacademy.taskAPI.entity;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comment")
-public class Comment extends BaseTimeEntity {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
-
-    @NotNull
-    @Column(name = "creator_account_id")
-    private Long creatorAccountId;
+    @Column(name = "writer_id")
+    private Long writerId;
 
     @NotNull
     @Lob
     @Column(name = "content")
     private String content;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+    /**
+     * Service에서 새 Comment 생성을 위한 생성자
+     */
+    public Comment(Task task, Long writerId, String content) {
+        this.task = task;
+        this.writerId = writerId;
+        this.content = content;
+    }
 }

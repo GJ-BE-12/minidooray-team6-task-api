@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "project")
-public class Project extends BaseTimeEntity {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -29,8 +29,13 @@ public class Project extends BaseTimeEntity {
     @Column(name = "status")
     private ProjectStatus status;
 
-    @Column(name = "admin_account_id", nullable = false)
-    private Long adminAccountId;
+    @NotNull
+    @Column(name = "admin_id")
+    private Long adminId;
+
+    //Project 삭제시 하위 엔티티 모두 삭제
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ProjectMember> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Milestone> milestones = new ArrayList<>();
@@ -41,10 +46,28 @@ public class Project extends BaseTimeEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-
-    public Project(String name, Long adminAccountId) {
+    /**
+     * Service에서 새 프로젝트 생성을 위한 생성자
+     */
+    public Project(String name, Long adminId) {
         this.name = name;
-        this.adminAccountId = adminAccountId;
+        this.adminId = adminId;
         this.status = ProjectStatus.ACTIVE;
+    }
+
+
+    /**
+     * 이름, 상태 변경 메소드
+     */
+    public void updateProject(String name, ProjectStatus status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    /**
+     * 상태 변경 메소드
+     */
+    public void updateStatus(ProjectStatus status) {
+        this.status = status;
     }
 }

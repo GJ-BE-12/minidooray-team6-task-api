@@ -3,34 +3,41 @@ package com.nhnacademy.taskAPI.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "milestone")
-public class Milestone extends BaseTimeEntity {
+public class Milestone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "milestone_id")
+    @Column(name = "id")
     private Long id;
+
+    @NotNull
+    @Column(name = "name")
+    private String name;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @NotNull
-    @Column(name = "title")
-    private String title;
+    //ON DELETE SET NULL이
+    @OneToMany(mappedBy = "milestone")
+    private List<Task> tasks = new ArrayList<>();
 
-    @Column(name = "due_date")
-    private LocalDate dueDate;
-
+    /**
+     * Service에서 새 마일스톤 생성을 위한 생성자
+     */
+    public Milestone(Project project, String name) {
+        this.project = project;
+        this.name = name;
+    }
 }
