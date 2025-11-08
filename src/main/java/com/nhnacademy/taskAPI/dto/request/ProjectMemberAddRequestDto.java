@@ -1,4 +1,4 @@
-package com.nhnacademy.taskAPI.entity.dto;
+package com.nhnacademy.taskAPI.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

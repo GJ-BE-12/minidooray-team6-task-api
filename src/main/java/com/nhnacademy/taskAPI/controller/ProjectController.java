@@ -1,9 +1,9 @@
 package com.nhnacademy.taskAPI.controller;
 
-import com.nhnacademy.taskAPI.entity.dto.ProjectCreateRequestDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectResponseDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectStatusUpdateDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectUpdateDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectCreateRequestDto;
+import com.nhnacademy.taskAPI.dto.response.ProjectResponseDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectStatusUpdateDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectUpdateDto;
 import com.nhnacademy.taskAPI.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

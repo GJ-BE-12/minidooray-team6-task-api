@@ -1,8 +1,8 @@
 package com.nhnacademy.taskAPI.service.impl;
 
 import com.nhnacademy.taskAPI.entity.Task;
-import com.nhnacademy.taskAPI.entity.dto.TaskCreateDto;
-import com.nhnacademy.taskAPI.entity.dto.TaskUpdateDto;
+import com.nhnacademy.taskAPI.dto.request.TaskCreateDto;
+import com.nhnacademy.taskAPI.dto.request.TaskUpdateDto;
 import com.nhnacademy.taskAPI.repository.MilestoneRepository;
 import com.nhnacademy.taskAPI.repository.TaskRepository;
 import com.nhnacademy.taskAPI.service.TaskService;

@@ -1,4 +1,4 @@
-package com.nhnacademy.taskAPI.entity.dto;
+package com.nhnacademy.taskAPI.dto.request;
 
 import com.nhnacademy.taskAPI.entity.ProjectStatus;
 import jakarta.validation.constraints.NotNull;

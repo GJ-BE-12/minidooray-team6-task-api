@@ -2,10 +2,10 @@ package com.nhnacademy.taskAPI.service;
 
 
 
-import com.nhnacademy.taskAPI.entity.dto.ProjectCreateRequestDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectResponseDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectStatusUpdateDto;
-import com.nhnacademy.taskAPI.entity.dto.ProjectUpdateDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectCreateRequestDto;
+import com.nhnacademy.taskAPI.dto.response.ProjectResponseDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectStatusUpdateDto;
+import com.nhnacademy.taskAPI.dto.request.ProjectUpdateDto;
 
 import java.util.List;
 
@@ -17,9 +17,6 @@ public interface ProjectService {
     List<ProjectResponseDto> getMyProjects(Long accountId);
     ProjectResponseDto updateProject(Long adminId, Long projectId, ProjectUpdateDto requestDto);
     void deleteProject(Long adminId, Long projectId);
-
-    /**
-     * 프로젝트의 '상태'수정
-     */
+\
     ProjectResponseDto updateProjectStatus(Long adminId, Long projectId, ProjectStatusUpdateDto requestDto);
 }
