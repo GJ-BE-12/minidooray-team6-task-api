@@ -1,6 +1,7 @@
 package com.nhnacademy.taskAPI.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -35,6 +36,10 @@ public class Comment {
     public Comment(Task task, Long writerId, String content) {
         this.task = task;
         this.writerId = writerId;
+        this.content = content;
+    }
+
+    public void updateComment(@NotBlank(message = "댓글 내용은 필수입니다.") String content) {
         this.content = content;
     }
 }
