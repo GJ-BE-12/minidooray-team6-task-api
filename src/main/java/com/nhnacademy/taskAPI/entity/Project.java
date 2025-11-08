@@ -46,27 +46,17 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    /**
-     * Service에서 새 프로젝트 생성을 위한 생성자
-     */
     public Project(String name, Long adminId) {
         this.name = name;
         this.adminId = adminId;
         this.status = ProjectStatus.ACTIVE;
     }
 
-
-    /**
-     * 이름, 상태 변경 메소드
-     */
     public void updateProject(String name, ProjectStatus status) {
         this.name = name;
         this.status = status;
     }
 
-    /**
-     * 상태 변경 메소드
-     */
     public void updateStatus(ProjectStatus status) {
         this.status = status;
     }

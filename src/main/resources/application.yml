@@ -9,10 +9,7 @@ spring:
 
   jpa:
     hibernate:
-      # create: 앱 실행시마다 테이블 삭제 후 재생성 (개발용)
-      # update: 변경된 부분만 반영 (개발용)
-      # validate: 엔티티와 테이블이 일치하는지 검증
-      # none: 아무것도 안 함 (운영용)
+
       ddl-auto: update
 
     show-sql: true
@@ -20,7 +17,8 @@ spring:
       hibernate:
         format_sql: true
 
-# RestTemplate이 호출할 AccountApi 주소
 api:
   account:
     url: http://172.27.40.92:8081
+  gateway:
+    url: http://172.20.97.32:8080
