@@ -1,7 +1,7 @@
 package com.nhnacademy.taskAPI.service.impl;
 
-import com.nhnacademy.taskAPI.dto.request.TagCreateRequest;
-import com.nhnacademy.taskAPI.dto.request.TagUpdateRequest;
+import com.nhnacademy.taskAPI.dto.request.TagCreateRequestDto;
+import com.nhnacademy.taskAPI.dto.request.TagUpdateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.TagResponseDto;
 import com.nhnacademy.taskAPI.entity.Project;
 import com.nhnacademy.taskAPI.entity.Tag;
@@ -22,7 +22,7 @@ public class TagServiceImpl implements TagService {
     private final ProjectAuthService projectAuthService;
 
     @Override
-    public TagResponseDto createTag(Long userId, Long projectId, TagCreateRequest requestDto) {
+    public TagResponseDto createTag(Long userId, Long projectId, TagCreateRequestDto requestDto) {
         projectAuthService.existUserId(userId,projectId);
 
         Project project = projectRepository.findById(projectId)
@@ -45,7 +45,7 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public TagResponseDto updateTag(Long userId, Long tagId, TagUpdateRequest requestDto) {
+    public TagResponseDto updateTag(Long userId, Long tagId, TagUpdateRequestDto requestDto) {
         Tag tag = tagRepository.findById(tagId).orElseThrow(RuntimeException::new);
         long projectId = tag.getProject().getId();
         projectAuthService.existUserId(userId, projectId);

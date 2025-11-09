@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Task에 tag 추가
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TagCreateRequest {
-    private String name;
+public class TaskAddTagRequest {
+    private Long tagId;
 }
