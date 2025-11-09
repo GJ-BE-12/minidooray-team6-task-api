@@ -39,6 +39,10 @@ public class Milestone {
         this.name = name;
     }
 
+    public void updateMilestone(String name){
+        this.name = name;
+    }
+
     @PreRemove
     public void preRemove() {
         for (Task task : tasks) {
