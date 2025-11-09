@@ -25,10 +25,12 @@ public class Task {
     @Column(name = "creator_id")
     private Long creatorId;
 
+    @Setter
     @NotNull
     @Column(name = "title")
     private String title;
 
+    @Setter
     @Lob
     @Column(name = "content")
     private String content;
