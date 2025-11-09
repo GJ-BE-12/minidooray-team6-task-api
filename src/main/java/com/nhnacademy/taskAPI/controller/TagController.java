@@ -1,7 +1,7 @@
 package com.nhnacademy.taskAPI.controller;
 
-import com.nhnacademy.taskAPI.dto.request.TagCreateRequest;
-import com.nhnacademy.taskAPI.dto.request.TagUpdateRequest;
+import com.nhnacademy.taskAPI.dto.request.TagCreateRequestDto;
+import com.nhnacademy.taskAPI.dto.request.TagUpdateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.TagResponseDto;
 import com.nhnacademy.taskAPI.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class TagController {
 
     @PostMapping("/projects/{projectId}/tags")
     public ResponseEntity<TagResponseDto> createTag(@PathVariable Long projectId,
-                                                    @RequestBody TagCreateRequest requestDto,
+                                                    @RequestBody TagCreateRequestDto requestDto,
                                                     @RequestHeader("X-USER-ID") Long userId) {
 
         TagResponseDto responseDto = tagService.createTag(userId, projectId, requestDto);
@@ -26,7 +26,7 @@ public class TagController {
 
     @PutMapping("/tags/{tagId}")
     public ResponseEntity<TagResponseDto> updateTag(@PathVariable Long tagId,
-                                                    @RequestBody TagUpdateRequest requestDto,
+                                                    @RequestBody TagUpdateRequestDto requestDto,
                                                     @RequestHeader("X-USER-ID") Long userId) {
 
         TagResponseDto responseDto = tagService.updateTag(userId, tagId, requestDto);
