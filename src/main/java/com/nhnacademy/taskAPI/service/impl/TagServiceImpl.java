@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
@@ -52,5 +55,18 @@ public class TagServiceImpl implements TagService {
 
         tag.setName(requestDto.getName());
         return new TagResponseDto(tag.getId(), tag.getName());
+    }
+
+    public List<TagResponseDto> getTagbyProject(Long userId, Long projectId) {
+        projectAuthService.existUserId(userId,projectId);
+
+        List<Tag> tags = tagRepository.findByProjectId(projectId);
+        List<TagResponseDto> responseDtos = new ArrayList<>();
+
+        for (Tag t : tags) {
+            responseDtos.add(new TagResponseDto(t.getId(), t.getName()));
+        }
+
+        return responseDtos;
     }
 }

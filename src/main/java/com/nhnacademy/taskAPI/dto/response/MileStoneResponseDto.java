@@ -1,12 +1,10 @@
 package com.nhnacademy.taskAPI.dto.response;
 
+import com.nhnacademy.taskAPI.entity.Milestone;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * MileStone 정보를 담음/ 주로 Project DetailsDto내의 MileStone 목록에 사용
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +12,11 @@ public class MileStoneResponseDto {
     private Long id;
     private String name;
 
+
+    public static MileStoneResponseDto fromEntity(Milestone milestone) {
+        return new MileStoneResponseDto(
+                milestone.getId(),
+                milestone.getName()
+        );
+    }
 }

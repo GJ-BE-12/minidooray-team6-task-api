@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskProjectDto {
+public class TaskProjectResponseDto {
     private Long projectId;
     private String name;
     private String status;
