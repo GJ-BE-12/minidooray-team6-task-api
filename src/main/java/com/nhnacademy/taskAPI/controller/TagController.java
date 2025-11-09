@@ -39,4 +39,13 @@ public class TagController {
         tagService.deleteTag(userId, tagId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/tags/{projectId}")
+    public List<TagResponseDto> getTagByProjectId(@PathVariable Long projectId,
+                                                  @RequestHeader("X-USER-ID") Long userId) {
+
+        return tagService.getTagbyProject(userId, projectId);
+    }
+
+
 }
