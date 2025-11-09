@@ -13,9 +13,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskCreateRequest {
-    private Long creatorId; //세션에서 가져오지 말고 taskAPI에서 받아오기
-    private Long projectId;
+public class TaskCreateRequestDto {
+//    private Long creatorId; //세션에서 가져오지 말고 taskAPI에서 받아오기
+//    task 생성자 xuserid
+//    private Long projectId;
+//    url에 존재
     private String title;
     private String content;
 }

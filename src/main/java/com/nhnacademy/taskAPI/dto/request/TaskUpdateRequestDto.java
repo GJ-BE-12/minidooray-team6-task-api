@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * task에 mileStone 설정(또는 변경)
+ * Task 내 다른 필드를 건드리지 않는 update request
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskSetMileStoneRequest {
-    private Long mileStonId;
+public class TaskUpdateRequestDto {
+    private String title;
+    private String content;
 }
+
