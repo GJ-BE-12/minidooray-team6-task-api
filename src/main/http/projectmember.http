@@ -12,9 +12,9 @@
 ### [C] 1. 프로젝트에 새 멤버 추가 (여러 명)
 # API: POST /projects/{projectId}/members
 # Gateway가 JSON 배열로 List를 보낸다고 가정합니다.
-POST {{baseUrl}}/projects/{{projectId}}/members
+POST {{baseUrl}}/projects/1/members
 Content-Type: application/json
-X-USER-ID: {{adminId}}
+X-USER-ID: 1
 
 [
   {
@@ -25,17 +25,18 @@ X-USER-ID: {{adminId}}
   }
 ]
 
+
 ### =======================================
 ### [C] 1-2. 프로젝트에 새 멤버 추가 (한 명)
 # API: POST /projects/{projectId}/members
 # 한 명을 추가할 때도 List에 하나만 담아서 보냅니다.
-POST {{baseUrl}}/projects/{{projectId}}/members
+POST {{baseUrl}}/projects/1/members
 Content-Type: application/json
-X-USER-ID: {{adminId}}
+X-USER-ID: 1
 
 [
   {
-    "accountId": {{userIdToDelete}}
+    "accountId": 3
   }
 ]
 
@@ -43,12 +44,12 @@ X-USER-ID: {{adminId}}
 ### [R] 2. 프로젝트 멤버 'ID' 목록 조회
 # API: GET /projects/{projectId}/members
 # 일반 멤버(regularUserId)의 ID로 조회를 시도합니다.
-GET {{baseUrl}}/projects/{{projectId}}/members
-X-USER-ID: {{regularUserId}}
+GET {{baseUrl}}/projects/1/members
+X-USER-ID: 2
 
 ### =======================================
 ### [D] 3. 프로젝트 멤버 삭제
 # API: DELETE /projects/{projectId}/members/{userId}
 # 관리자(adminId)가 1-2에서 추가한 멤버(userIdToDelete)를 삭제합니다.
-DELETE {{baseUrl}}/projects/{{projectId}}/members/{{userIdToDelete}}
-X-USER-ID: {{adminId}}
+DELETE {{baseUrl}}/projects/1/members/3
+X-USER-ID: 1
