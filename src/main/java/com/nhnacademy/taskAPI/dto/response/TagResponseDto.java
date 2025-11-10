@@ -1,5 +1,7 @@
 package com.nhnacademy.taskAPI.dto.response;
 
+import com.nhnacademy.taskAPI.entity.Tag;
+import com.nhnacademy.taskAPI.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,11 @@ import lombok.NoArgsConstructor;
 public class TagResponseDto {
     private Long id;
     private String name;
+
+    public static TagResponseDto fromEntity(Tag tag) {
+        return new TagResponseDto(
+                tag.getId(),
+                tag.getName()
+        );
+    }
 }

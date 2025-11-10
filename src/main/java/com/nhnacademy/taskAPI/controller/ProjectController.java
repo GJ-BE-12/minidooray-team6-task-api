@@ -1,6 +1,7 @@
 package com.nhnacademy.taskAPI.controller;
 
 import com.nhnacademy.taskAPI.dto.request.ProjectCreateRequestDto;
+import com.nhnacademy.taskAPI.dto.response.ProjectDetailsDto;
 import com.nhnacademy.taskAPI.dto.response.ProjectResponseDto;
 import com.nhnacademy.taskAPI.dto.request.ProjectStatusUpdateDto;
 import com.nhnacademy.taskAPI.dto.request.ProjectUpdateDto;
@@ -51,11 +52,12 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectResponseDto> getProjectDetails(
-            @RequestHeader("X-USER-ID") Long accountId,
-            @PathVariable Long projectId) {
+    public ResponseEntity<ProjectDetailsDto> getProjectDetails( // 1. 반환 타입 변경
+                                                                @RequestHeader("X-USER-ID") Long accountId,
+                                                                @PathVariable Long projectId) {
 
-        ProjectResponseDto project = projectService.getProject(accountId, projectId);
+        // 2. 서비스 호출 (서비스의 반환 타입도 변경되어야 함)
+        ProjectDetailsDto project = projectService.getProject(accountId, projectId);
         return ResponseEntity.ok(project);
     }
 

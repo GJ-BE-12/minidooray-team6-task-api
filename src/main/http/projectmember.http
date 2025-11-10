@@ -12,7 +12,7 @@
 ### [C] 1. 프로젝트에 새 멤버 추가 (여러 명)
 # API: POST /projects/{projectId}/members
 # Gateway가 JSON 배열로 List를 보낸다고 가정합니다.
-POST {{baseUrl}}/projects/1/members
+POST http://10.201.235.221:8082/projects/1/members
 Content-Type: application/json
 X-USER-ID: 1
 
@@ -30,7 +30,7 @@ X-USER-ID: 1
 ### [C] 1-2. 프로젝트에 새 멤버 추가 (한 명)
 # API: POST /projects/{projectId}/members
 # 한 명을 추가할 때도 List에 하나만 담아서 보냅니다.
-POST {{baseUrl}}/projects/1/members
+POST http://10.201.235.221:8082/projects/1/members
 Content-Type: application/json
 X-USER-ID: 1
 

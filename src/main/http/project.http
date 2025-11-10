@@ -1,6 +1,6 @@
 ### [C] 새 프로젝트 생성
 # Gateway가 인증 후 X-USER-ID 헤더를 추가했다고 가정합니다.
-POST http://10.201.235.221:8082/projects
+POST http://localhost:8082/projects
 Content-Type: application/json
 X-USER-ID: 1
 
@@ -9,7 +9,7 @@ X-USER-ID: 1
 }
 
 ###
-POST http://10.201.235.221:8082/tasks/1/comments
+POST http://localhost:8082/tasks/1/comments
 Content-Type: application/json
 X-USER-ID: 1
 
@@ -17,12 +17,12 @@ X-USER-ID: 1
   "content": "이것은 첫 번째 테스트 댓글입니다."
 }
 ### [R] 내가 속한 프로젝트 목록 조회
-GET http://10.201.235.221:8082/projects
-X-USER-ID: 1
+GET http://localhost:8082/projects
+X-USER-ID: 101
 
 ### [R] 특정 프로젝트 상세 조회 (1번 프로젝트)
 GET http://localhost:8082/projects/1
-X-USER-ID: 1
+X-USER-ID: 100
 
 ### [U] 프로젝트 전체 수정 (1번 프로젝트)
 PUT http://localhost:8082/projects/1
@@ -49,30 +49,3 @@ X-USER-ID: 1
 
 
 
-### [C] tag 생성
-POST http://localhost:8082/projects/1/tags
-X-USER-ID: 1
-Content-Type: application/json
-
-{
-  "name": "태그"
-}
-
-### [R] tag
-GET http://localhost:8082/tags/1
-X-USER-ID: 1
-
-
-### [D] tag 삭제
-DELETE http://localhost:8082/tags/1
-X-USER-ID: 1
-
-
-### [U] tag 업데이트
-PUT http://localhost:8082/tags/5
-X-USER-ID: 1
-Content-Type: application/json
-
-{
-    "name": "수정"
-}

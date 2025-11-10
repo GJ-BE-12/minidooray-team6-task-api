@@ -1,7 +1,7 @@
 
 
 ### [C] tag 생성
-POST http://localhost:8082/projects/1/tags
+POST http://10.201.235.221:8082/projects/1/tags
 X-USER-ID: 1
 Content-Type: application/json
 
@@ -10,17 +10,17 @@ Content-Type: application/json
 }
 
 ### [R] tag
-GET http://localhost:8082/tags/1
+GET http://10.201.235.221:8082/tags/1
 X-USER-ID: 1
 
 
 ### [D] tag 삭제
-DELETE http://localhost:8082/tags/7
+DELETE http://10.201.235.221:8082/tags/7
 X-USER-ID: 1
 
 
 ### [U] tag 업데이트
-PUT http://localhost:8082/tags/7
+PUT http://10.201.235.221:8082/tags/7
 X-USER-ID: 1
 Content-Type: application/json
 
