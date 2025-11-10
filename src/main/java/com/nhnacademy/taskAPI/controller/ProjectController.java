@@ -59,7 +59,7 @@ public class ProjectController {
         return ResponseEntity.ok(project);
     }
 
-    @DeleteMapping("/{projectId}")
+    @DeleteMapping("/{projectId}") //없애고 상태변경
     public ResponseEntity<Void> deleteProject(
             @RequestHeader("X-USER-ID") Long adminId,
             @PathVariable Long projectId) {

@@ -1,0 +1,27 @@
+# --- [설정] ---
+# TaskApi 서버 주소 (예시)
+@baseUrl = http://localhost:8082
+
+# 테스트용 변수
+@accountId = 1     # 요청을 보내는 사용자 ID (프로젝트 멤버)
+@taskId = 1      # 태그를 할당할 태스크 ID
+@tagId = 1       # 할당할 태그 ID
+
+### =======================================
+### [C] 1. 태스크에 새 태그 할당
+# API: POST /tasks/{taskId}/tags
+# 1번 태스크(taskId=1)에 1번 태그(tagId=1)를 할당합니다.
+POST {{baseUrl}}/tasks/{{taskId}}/tags
+Content-Type: application/json
+X-USER-ID: {{accountId}}
+
+{
+  "tagId": {{tagId}}
+}
+
+### =======================================
+### [D] 2. 태스크에서 태그 해제
+# API: DELETE /tasks/{taskId}/tags/{tagId}
+# 1번 태스크(taskId=1)에서 1번 태그(tagId=1)를 해제합니다.
+DELETE {{baseUrl}}/tasks/{{taskId}}/tags/{{tagId}}
+X-USER-ID: {{accountId}}
