@@ -2,11 +2,13 @@ package com.nhnacademy.taskAPI.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProjectCreateRequestDto {
 
     @NotBlank(message = "프로젝트 이름은 필수입니다.")

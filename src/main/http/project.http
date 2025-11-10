@@ -1,6 +1,6 @@
 ### [C] 새 프로젝트 생성
 # Gateway가 인증 후 X-USER-ID 헤더를 추가했다고 가정합니다.
-POST http://localhost:8082/projects
+POST http://10.201.235.221:8082/projects
 Content-Type: application/json
 X-USER-ID: 1
 
@@ -21,8 +21,8 @@ GET http://localhost:8082/projects
 X-USER-ID: 101
 
 ### [R] 특정 프로젝트 상세 조회 (1번 프로젝트)
-GET http://localhost:8082/projects/1
-X-USER-ID: 100
+GET http://10.201.235.221:8082/projects/1
+X-USER-ID: 1
 
 ### [U] 프로젝트 전체 수정 (1번 프로젝트)
 PUT http://localhost:8082/projects/1
