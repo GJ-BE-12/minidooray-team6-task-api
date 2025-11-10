@@ -5,10 +5,7 @@ import com.nhnacademy.taskAPI.dto.request.TaskCreateRequestDto;
 import com.nhnacademy.taskAPI.dto.request.TaskUpdateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.*;
 import com.nhnacademy.taskAPI.entity.*;
-import com.nhnacademy.taskAPI.exception.ProjectNotFoundException;
-import com.nhnacademy.taskAPI.exception.TagAlreadyExistsException;
-import com.nhnacademy.taskAPI.exception.TagNotFoundException;
-import com.nhnacademy.taskAPI.exception.TaskNotFoundException;
+import com.nhnacademy.taskAPI.exception.*;
 import com.nhnacademy.taskAPI.repository.*;
 import com.nhnacademy.taskAPI.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,9 +24,10 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final TaskTagRepository taskTagRepository;
-    private final CommentRepository commentRepository;
     private final ProjectAuthService projectAuthService;
     private final TagRepository tagRepository;
+    private final MilestoneRepository milestoneRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -118,7 +117,21 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(requestDto.getTitle());
         task.setContent(requestDto.getContent());
 
-        Long milestoneId = (task.getMilestone() != null) ? task.getMilestone().getId() : null;
+        Long milestoneId = requestDto.getMileStoneId();
+        Milestone milestoneToSet = null;
+
+        if (milestoneId != null) {
+            milestoneToSet = milestoneRepository.findById(milestoneId)
+                    .orElseThrow(() -> new MilestoneNotFoundException("마일스톤을 찾을 수 없습니다: " + milestoneId));
+
+            if (milestoneToSet.getProject().getId() != projectId) {
+                throw new MemberAccessDeniedException("다른 프로젝트의 마일스톤을 설정할 수 없습니다.");
+            }
+        }
+
+        task.setMilestone(milestoneToSet);
+
+        Long updatedMilestoneId = (task.getMilestone() != null) ? task.getMilestone().getId() : null;
 
         List<TagResponseDto> tagDtos = task.getTaskTags().stream()
                 .map(taskTag -> taskTag.getTag())
@@ -130,7 +143,7 @@ public class TaskServiceImpl implements TaskService {
                 task.getTitle(),
                 task.getContent(),
                 task.getCreatorId(),
-                milestoneId,
+                updatedMilestoneId,
                 tagDtos
         );
     }
