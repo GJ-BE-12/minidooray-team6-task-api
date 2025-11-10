@@ -12,8 +12,8 @@ public class ProjectAuthService {
     private final ProjectMemberRepository projectMemberRepository;
 
     public void existUserId(Long userId, Long projectId) {
-        if (!projectMemberRepository.existsByProjectIdAndAccountId(userId, projectId)) {
-            throw new MemberAccessDeniedException("이 프로젝트에 대한 권한이 없습니다.");
+        if (!projectMemberRepository.existsByAccountIdAndProjectId(userId, projectId)) {
+            throw new MemberAccessDeniedException("해당 유저는 프로젝트 멤버가 아닙니다.");
         }
     }
 

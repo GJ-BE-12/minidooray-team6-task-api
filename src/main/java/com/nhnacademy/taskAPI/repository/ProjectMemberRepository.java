@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long> {
     List<ProjectMember> findByAccountId(Long accountId);
     List<ProjectMember> findByProjectId(Long projectId);
-    boolean existsByProjectIdAndAccountId(Long projectId, Long accountId);
+    boolean existsByAccountIdAndProjectId(Long accountId, Long projectId);
     Optional<ProjectMember> findByProjectIdAndAccountId(Long projectId, Long accountId);
 }

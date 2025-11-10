@@ -25,6 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
     private final ProjectMemberRepository projectMemberRepository;
+    private final ProjectAuthService projectAuthService;
 
     @Override
     public CommentResponseDto createComment(Long accountId, Long taskId, CommentCreateRequestDto requestDto) {
@@ -80,9 +81,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new TaskNotFoundException("테스크를 찾을 수 없습니다."));
 
         // 태스크가 속한 프로젝트의 멤버인지 확인
-        if (!projectMemberRepository.existsByProjectIdAndAccountId(task.getProject().getId(), accountId)) {
-            throw new MemberAccessDeniedException("테스크의 댓글에 접근할 권한이 없습니다.");
-        }
+        projectAuthService.existUserId(accountId, task.getProject().getId());
         return task;
     }
 }

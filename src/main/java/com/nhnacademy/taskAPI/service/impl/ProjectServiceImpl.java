@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional(readOnly = true)
     public ProjectResponseDto getProject(Long accountId, Long projectId) {
 
-        if (!projectMemberRepository.existsByProjectIdAndAccountId(projectId, accountId)) {
+        if (!projectMemberRepository.existsByAccountIdAndProjectId(accountId, projectId)) {
             throw new MemberAccessDeniedException("이 프로젝트에 접근할 권한이 없습니다.");
         }
 

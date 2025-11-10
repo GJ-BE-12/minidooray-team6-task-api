@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
         projectAuthService.existUserId(userId, projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다: " + projectId));
-
+//        projectAuthService.checkProjectAdmin(userId, project);
         Task task = new Task(project, userId, requestDto.getTitle(), requestDto.getContent(), null);
         Task savedTask = taskRepository.save(task);
 
