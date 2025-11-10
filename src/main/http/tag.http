@@ -15,12 +15,12 @@ X-USER-ID: 1
 
 
 ### [D] tag 삭제
-DELETE http://10.201.235.221:8082/tags/7
+DELETE http://10.201.235.221:8082/tags/1
 X-USER-ID: 1
 
 
 ### [U] tag 업데이트
-PUT http://10.201.235.221:8082/tags/7
+PUT http://10.201.235.221:8082/tags/1
 X-USER-ID: 1
 Content-Type: application/json
 

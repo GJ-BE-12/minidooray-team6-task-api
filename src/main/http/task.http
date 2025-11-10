@@ -1,13 +1,16 @@
 ### [C] 새 태스크 생성
 # 1번 프로젝트에 새 태스크를 생성합니다.
 POST http://10.201.235.221:8082/projects/1/tasks
-X-USER-ID: 101
+X-USER-ID: 1
 Content-Type: application/json
 
 {
   "title": "새로운 태스크",
-  "content": "멤버"
+  "content": "멤버",
+  "mileStoneId" : 1
 }
+
+
 
 ### [R] 프로젝트의 모든 태스크 목록 조회
 # 1번 프로젝트의 모든 태스크 목록을 조회
@@ -21,13 +24,14 @@ X-USER-ID: 1
 
 ### [U] 태스크 정보 수정
 # 1번 태스크의 제목과 내용을 수정
-PUT http://10.201.235.221:8082/tasks/4
-X-USER-ID: 101
+PUT http://10.201.235.221:8082/tasks/1
+X-USER-ID: 1
 Content-Type: application/json
 
 {
   "title": "수정된 태스크 제목",
-  "content": "수정된 태스크 내용"
+  "content": "수정된 태스크 내용",
+  "mileStoneId" : 1
 }
 
 ### [C] 태스크에 태그 할당
