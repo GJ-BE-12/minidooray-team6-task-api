@@ -5,6 +5,7 @@ import com.nhnacademy.taskAPI.dto.request.TagUpdateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.TagResponseDto;
 import com.nhnacademy.taskAPI.entity.Project;
 import com.nhnacademy.taskAPI.entity.Tag;
+import com.nhnacademy.taskAPI.exception.ProjectNotFoundException;
 import com.nhnacademy.taskAPI.repository.ProjectMemberRepository;
 import com.nhnacademy.taskAPI.repository.ProjectRepository;
 import com.nhnacademy.taskAPI.repository.TagRepository;
@@ -29,7 +30,7 @@ public class TagServiceImpl implements TagService {
         projectAuthService.existUserId(userId,projectId);
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다: " + projectId));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다: " + projectId));
 
         Tag newTag = new Tag(project, requestDto.getName());
         Tag savedTag = tagRepository.save(newTag);

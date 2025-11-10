@@ -4,6 +4,8 @@ import com.nhnacademy.taskAPI.dto.request.MileStoneCreateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.MileStoneResponseDto;
 import com.nhnacademy.taskAPI.entity.Milestone;
 import com.nhnacademy.taskAPI.entity.Project;
+import com.nhnacademy.taskAPI.exception.MilestoneNotFoundException;
+import com.nhnacademy.taskAPI.exception.ProjectNotFoundException;
 import com.nhnacademy.taskAPI.repository.MilestoneRepository;
 import com.nhnacademy.taskAPI.repository.ProjectRepository;
 import com.nhnacademy.taskAPI.service.MileStoneService;
@@ -25,7 +27,7 @@ public class MileStoneServiceImpl implements MileStoneService {
     @Transactional
     public MileStoneResponseDto createMilestone(Long accountId, Long projectId, MileStoneCreateRequestDto requestDto) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트 못찾음"));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다"));
 
         projectAuthService.checkProjectAdmin(accountId, project);
 
@@ -49,7 +51,7 @@ public class MileStoneServiceImpl implements MileStoneService {
     @Transactional
     public MileStoneResponseDto updateMilestone(Long accountId, Long milestoneId, MileStoneCreateRequestDto requestDto) {
         Milestone milestone = milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new RuntimeException("milestoneNotFount"));
+                .orElseThrow(() -> new MilestoneNotFoundException("마일스톤을 찾을 수 없습니다"));
 
         projectAuthService.checkProjectAdmin(accountId, milestone.getProject());
 
@@ -60,7 +62,7 @@ public class MileStoneServiceImpl implements MileStoneService {
     @Override
     public void deleteMilestone(Long accountId, Long milestoneId) {
         Milestone milestone = milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new RuntimeException("milestoneNotFount"));
+                .orElseThrow(() -> new MilestoneNotFoundException("마일스톤을 찾을 수 없습니다"));
         projectAuthService.checkProjectAdmin(accountId, milestone.getProject());
 
         milestoneRepository.delete(milestone);

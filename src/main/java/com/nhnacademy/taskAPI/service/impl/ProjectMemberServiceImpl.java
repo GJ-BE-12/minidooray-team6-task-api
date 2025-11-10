@@ -3,6 +3,9 @@ package com.nhnacademy.taskAPI.service.impl;
 import com.nhnacademy.taskAPI.dto.request.ProjectMemberAddRequestDto;
 import com.nhnacademy.taskAPI.entity.Project;
 import com.nhnacademy.taskAPI.entity.ProjectMember;
+import com.nhnacademy.taskAPI.exception.MemberAccessDeniedException;
+import com.nhnacademy.taskAPI.exception.ProjectMemberNotFoundException;
+import com.nhnacademy.taskAPI.exception.ProjectNotFoundException;
 import com.nhnacademy.taskAPI.repository.ProjectMemberRepository;
 import com.nhnacademy.taskAPI.repository.ProjectRepository;
 import com.nhnacademy.taskAPI.service.ProjectMemberService;
@@ -27,7 +30,8 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     public void addMembersToProject(Long adminId, Long projectId, List<ProjectMemberAddRequestDto> requestDtoList) {
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new
+                        RuntimeException("프로젝트를 찾을 수 없습니다."));
 
         projectAuthService.checkProjectAdmin(adminId, project);
 
@@ -48,16 +52,16 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     public void removeMemberFromProject(Long adminId, Long projectId, Long userId) {
         
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다."));
 
         projectAuthService.checkProjectAdmin(adminId, project);
 
         if (project.getAdminId().equals(userId)) {
-            throw new RuntimeException("프로젝트 관리자(본인)는 삭제할 수 없습니다.");
+            throw new MemberAccessDeniedException("프로젝트 관리자(본인)는 삭제할 수 없습니다.");
         }
 
         ProjectMember member = projectMemberRepository.findByProjectIdAndAccountId(projectId, userId)
-                .orElseThrow(() -> new RuntimeException("해당 프로젝트의 멤버를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectMemberNotFoundException("해당 프로젝트의 멤버를 찾을 수 없습니다."));
 
         projectMemberRepository.delete(member);
     }

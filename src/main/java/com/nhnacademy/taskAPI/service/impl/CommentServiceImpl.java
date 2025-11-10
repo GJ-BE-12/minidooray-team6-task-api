@@ -5,6 +5,9 @@ import com.nhnacademy.taskAPI.dto.request.CommentUpdateDto;
 import com.nhnacademy.taskAPI.dto.response.CommentResponseDto;
 import com.nhnacademy.taskAPI.entity.Comment;
 import com.nhnacademy.taskAPI.entity.Task;
+import com.nhnacademy.taskAPI.exception.CommentNotFoundException;
+import com.nhnacademy.taskAPI.exception.MemberAccessDeniedException;
+import com.nhnacademy.taskAPI.exception.TaskNotFoundException;
 import com.nhnacademy.taskAPI.repository.CommentRepository;
 import com.nhnacademy.taskAPI.repository.ProjectMemberRepository;
 import com.nhnacademy.taskAPI.repository.TaskRepository;
@@ -48,9 +51,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto updateComment(Long accountId, Long commentId, CommentUpdateDto requestDto) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("없는 댓글입니다."));
+                .orElseThrow(() -> new CommentNotFoundException("없는 댓글입니다."));
         if(!comment.getWriterId().equals(accountId)){
-            throw new RuntimeException("댓글은 본인만 수정할 수 있어요");
+            throw new MemberAccessDeniedException("댓글은 본인만 수정할 수 있습니다");
         }
         comment.updateComment(requestDto.getContent());
 
@@ -60,25 +63,25 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long accountId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CommentNotFoundException("댓글을 찾을 수 없습니다."));
 
         Long adminId = comment.getTask().getProject().getAdminId();
         boolean isAdmin = adminId.equals(accountId);
         boolean isWriter = comment.getWriterId().equals(accountId);
 
         if (!isAdmin && !isWriter) {
-            throw new RuntimeException("댓글 작성자 또는 프로젝트 관리자만 삭제할 수 있습니다.");
+            throw new MemberAccessDeniedException("댓글 작성자 또는 프로젝트 관리자만 삭제할 수 있습니다.");
         }
         commentRepository.delete(comment);
     }
 
     private Task checkAccessAndGetTask(Long accountId, Long taskId) {
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("테스크를 찾을 수 없습니다."));
+                .orElseThrow(() -> new TaskNotFoundException("테스크를 찾을 수 없습니다."));
 
         // 태스크가 속한 프로젝트의 멤버인지 확인
         if (!projectMemberRepository.existsByProjectIdAndAccountId(task.getProject().getId(), accountId)) {
-            throw new RuntimeException("테스크의 댓글에 접근할 권한이 없습니다.");
+            throw new MemberAccessDeniedException("테스크의 댓글에 접근할 권한이 없습니다.");
         }
         return task;
     }

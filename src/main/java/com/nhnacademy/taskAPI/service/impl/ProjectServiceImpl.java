@@ -6,6 +6,8 @@ import com.nhnacademy.taskAPI.dto.request.ProjectCreateRequestDto;
 import com.nhnacademy.taskAPI.dto.response.ProjectResponseDto;
 import com.nhnacademy.taskAPI.dto.request.ProjectStatusUpdateDto;
 import com.nhnacademy.taskAPI.dto.request.ProjectUpdateDto;
+import com.nhnacademy.taskAPI.exception.MemberAccessDeniedException;
+import com.nhnacademy.taskAPI.exception.ProjectNotFoundException;
 import com.nhnacademy.taskAPI.repository.ProjectMemberRepository;
 import com.nhnacademy.taskAPI.repository.ProjectRepository;
 import com.nhnacademy.taskAPI.service.ProjectService;
@@ -42,11 +44,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto getProject(Long accountId, Long projectId) {
 
         if (!projectMemberRepository.existsByProjectIdAndAccountId(projectId, accountId)) {
-            throw new RuntimeException("이 프로젝트에 접근할 권한이 없습니다.");
+            throw new MemberAccessDeniedException("이 프로젝트에 접근할 권한이 없습니다.");
         }
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다."));
 
         return ProjectResponseDto.fromEntity(project);
     }
@@ -68,10 +70,10 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto updateProject(Long adminId, Long projectId, ProjectUpdateDto requestDto) {
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다."));
 
         if (!project.getAdminId().equals(adminId)) {
-            throw new RuntimeException("프로젝트 관리자만 수정할 수 있습니다.");
+            throw new MemberAccessDeniedException("프로젝트 관리자만 수정할 수 있습니다.");
         }
 
         project.updateProject(requestDto.getName(), requestDto.getStatus());
@@ -84,10 +86,10 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteProject(Long adminId, Long projectId) {
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다."));
 
         if (!project.getAdminId().equals(adminId)) {
-            throw new RuntimeException("프로젝트 관리자만 삭제할 수 있습니다.");
+            throw new MemberAccessDeniedException("프로젝트 관리자만 삭제할 수 있습니다.");
         }
 
         projectRepository.delete(project);
@@ -98,10 +100,10 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto updateProjectStatus(Long adminId, Long projectId, ProjectStatusUpdateDto requestDto) {
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("프로젝트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다."));
 
         if (!project.getAdminId().equals(adminId)) {
-            throw new RuntimeException("프로젝트 관리자만 상태를 수정할 수 있습니다.");
+            throw new MemberAccessDeniedException("프로젝트 관리자만 상태를 수정할 수 있습니다.");
         }
 
         project.updateStatus(requestDto.getStatus());
