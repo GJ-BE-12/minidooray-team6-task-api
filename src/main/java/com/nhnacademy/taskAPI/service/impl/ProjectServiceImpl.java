@@ -70,12 +70,14 @@ public class ProjectServiceImpl implements ProjectService {
                             .map(tag -> new TagResponseDto(tag.getId(), tag.getName()))
                             .collect(Collectors.toList());
 
+                    // [수정] tags 리스트(tagDtosForTask)를 6번째 인자로 전달
                     return new TaskResponseDto(
                             t.getId(),
                             t.getTitle(),
                             t.getContent(),
                             t.getCreatorId(),
-                            milestoneId
+                            milestoneId,
+                            tagDtosForTask
                     );
                 })
                 .collect(Collectors.toList());

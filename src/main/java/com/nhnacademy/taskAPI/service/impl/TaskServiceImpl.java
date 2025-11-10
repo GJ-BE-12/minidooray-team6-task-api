@@ -36,11 +36,11 @@ public class TaskServiceImpl implements TaskService {
         projectAuthService.existUserId(userId, projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new ProjectNotFoundException("프로젝트를 찾을 수 없습니다: " + projectId));
-//        projectAuthService.checkProjectAdmin(userId, project);
+
         Task task = new Task(project, userId, requestDto.getTitle(), requestDto.getContent(), null);
         Task savedTask = taskRepository.save(task);
 
-        return new TaskResponseDto(savedTask.getId(), savedTask.getTitle(), savedTask.getContent(), savedTask.getCreatorId(), null);
+        return new TaskResponseDto(savedTask.getId(), savedTask.getTitle(), savedTask.getContent(), savedTask.getCreatorId(), null, new ArrayList<>());
     }
 
     @Override
@@ -54,12 +54,18 @@ public class TaskServiceImpl implements TaskService {
         for (Task t : tasks) {
             Long milestoneId = (t.getMilestone() != null) ? t.getMilestone().getId() : null;
 
+            List<TagResponseDto> tagDtos = t.getTaskTags().stream()
+                    .map(taskTag -> taskTag.getTag())
+                    .map(tag -> new TagResponseDto(tag.getId(), tag.getName()))
+                    .collect(Collectors.toList());
+
             responseDto.add(new TaskResponseDto(
                     t.getId(),
                     t.getTitle(),
                     t.getContent(),
                     t.getCreatorId(),
-                    milestoneId
+                    milestoneId,
+                    tagDtos
             ));
         }
         return responseDto;
@@ -74,23 +80,24 @@ public class TaskServiceImpl implements TaskService {
         long projectId = task.getProject().getId();
         projectAuthService.existUserId(userId, projectId);
 
+        List<TagResponseDto> tagDtos = task.getTaskTags().stream()
+                .map(taskTag -> taskTag.getTag())
+                .map(tag -> new TagResponseDto(tag.getId(), tag.getName()))
+                .collect(Collectors.toList());
+
         Long taskMilestoneId = (task.getMilestone() != null) ? task.getMilestone().getId() : null;
         TaskResponseDto taskDto = new TaskResponseDto(
                 task.getId(),
                 task.getTitle(),
                 task.getContent(),
                 task.getCreatorId(),
-                taskMilestoneId
+                taskMilestoneId,
+                tagDtos
         );
 
         MileStoneResponseDto milestoneDto = (task.getMilestone() != null)
                 ? MileStoneResponseDto.fromEntity(task.getMilestone())
                 : null;
-
-        List<TagResponseDto> tagDtos = task.getTaskTags().stream()
-                .map(taskTag -> taskTag.getTag())
-                .map(tag -> new TagResponseDto(tag.getId(), tag.getName()))
-                .collect(Collectors.toList());
 
         List<CommentResponseDto> commentDtos = task.getComments().stream()
                 .map(comment -> CommentResponseDto.fromEntity(comment))
@@ -113,12 +120,18 @@ public class TaskServiceImpl implements TaskService {
 
         Long milestoneId = (task.getMilestone() != null) ? task.getMilestone().getId() : null;
 
+        List<TagResponseDto> tagDtos = task.getTaskTags().stream()
+                .map(taskTag -> taskTag.getTag())
+                .map(tag -> new TagResponseDto(tag.getId(), tag.getName()))
+                .collect(Collectors.toList());
+
         return new TaskResponseDto(
                 task.getId(),
                 task.getTitle(),
                 task.getContent(),
                 task.getCreatorId(),
-                milestoneId
+                milestoneId,
+                tagDtos
         );
     }
 
@@ -141,7 +154,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("태스크를 찾을 수 없습니다: " + taskId));
 
         Tag tag = tagRepository.findById(requestDto.getTagId())
-                .orElseThrow(() -> new TaskNotFoundException("태그를 찾을 수 없습니다: " + requestDto.getTagId()));
+                .orElseThrow(() -> new TagNotFoundException("태그를 찾을 수 없습니다: "+ requestDto.getTagId()));
 
         long taskProjectId = task.getProject().getId();
         long tagProjectId = tag.getProject().getId();
@@ -149,7 +162,7 @@ public class TaskServiceImpl implements TaskService {
         projectAuthService.existUserId(userId, taskProjectId);
 
         if (taskProjectId != tagProjectId) {
-            throw new TaskNotFoundException("태스크와 태그가 동일한 프로젝트에 속해있지 않습니다.");
+            throw new TagNotFoundException("태스크와 태그가 동일한 프로젝트에 속해있지 않습니다.");
         }
 
         if (taskTagRepository.existsByTask_IdAndTag_Id(taskId, requestDto.getTagId())) {
