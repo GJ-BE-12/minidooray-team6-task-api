@@ -19,8 +19,8 @@ public class CommentResponseDto {
     public static CommentResponseDto fromEntity(Comment comment) {
         return new CommentResponseDto(
                 comment.getId(),
-                comment.getTask().getId(),
                 comment.getWriterId(),
+                comment.getTask().getId(),
                 comment.getContent()
         );
     }

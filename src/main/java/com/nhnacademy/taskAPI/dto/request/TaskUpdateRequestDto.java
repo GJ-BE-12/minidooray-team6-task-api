@@ -15,6 +15,7 @@ import lombok.Setter;
 public class TaskUpdateRequestDto {
     private String title;
     private String content;
-    private Long mileStoneId;
+    private Long milestoneId;
+    //변경
 }
 

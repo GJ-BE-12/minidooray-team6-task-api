@@ -117,7 +117,7 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(requestDto.getTitle());
         task.setContent(requestDto.getContent());
 
-        Long milestoneId = requestDto.getMileStoneId();
+        Long milestoneId = requestDto.getMilestoneId();
         Milestone milestoneToSet = null;
 
         if (milestoneId != null) {

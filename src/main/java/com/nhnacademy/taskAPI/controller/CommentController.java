@@ -18,7 +18,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/tasks/{taskId}/comments")
+    @PostMapping("/projects/{projectId}/tasks/{taskId}/comments")
     public ResponseEntity<CommentResponseDto> createComment(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long taskId,
@@ -30,7 +30,7 @@ public class CommentController {
         return ResponseEntity.created(location).body(createdComment);
     }
 
-    @GetMapping("/tasks/{taskId}/comments")
+    @GetMapping("/projects/{projectId}/tasks/{taskId}/comments")
     public ResponseEntity<List<CommentResponseDto>> getCommentsForTask(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long taskId) {
@@ -39,7 +39,7 @@ public class CommentController {
         return ResponseEntity.ok(comments);
     }
 
-    @PutMapping("/comments/{commentId}")
+    @PutMapping("/projects/{projectId}/tasks/{taskId}/comments/{commentId}")
     public ResponseEntity<CommentResponseDto> updateComment(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long commentId,
@@ -49,7 +49,7 @@ public class CommentController {
         return ResponseEntity.ok(updatedComment);
     }
 
-    @DeleteMapping("/comments/{commentId}")
+    @DeleteMapping("/projects/{projectId}/tasks/{taskId}/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long commentId) {

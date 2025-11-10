@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 public class ProjectMemberAddRequestDto {
 
     @NotNull(message = "추가할 멤버의 ID는 필수입니다.")
-    private Long accountId;
+    private Long id;
+    //변경
 }

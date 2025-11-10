@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjectDetailsDto {
     private ProjectResponseDto project;
-    private List<MileStoneResponseDto> mileStone;
-    
+    private List<MileStoneResponseDto> mileStones;
+    //변경
     private List<TaskResponseDto> tasks;
     private List<TagResponseDto> tags;
     private List<Long> members;

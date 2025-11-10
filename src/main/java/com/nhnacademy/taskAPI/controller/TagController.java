@@ -24,7 +24,7 @@ public class TagController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PutMapping("/tags/{tagId}")
+    @PutMapping("/projects/{projectId}/tags/{tagId}")
     public ResponseEntity<TagResponseDto> updateTag(@PathVariable Long tagId,
                                                     @RequestBody TagUpdateRequestDto requestDto,
                                                     @RequestHeader("X-USER-ID") Long userId) {
@@ -33,14 +33,14 @@ public class TagController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @DeleteMapping("/tags/{tagId}")
+    @DeleteMapping("/projects/{projectId}/tags/{tagId}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long tagId,
                                           @RequestHeader("X-USER-ID") Long userId) {
         tagService.deleteTag(userId, tagId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/tags/{projectId}")
+    @GetMapping("/projects/{projectId}/tags/{tagId}")
     public List<TagResponseDto> getTagByProjectId(@PathVariable Long projectId,
                                                   @RequestHeader("X-USER-ID") Long userId) {
 

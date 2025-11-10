@@ -34,14 +34,14 @@ public class TaskController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("/tasks/{taskId}")
+    @GetMapping("/projects/{projectId}/tasks/{taskId}")
     public ResponseEntity<TaskDetailsResponseDto> findTaskDetails(@PathVariable Long taskId,
                                                                   @RequestHeader("X-USER-ID") Long userId) {
         TaskDetailsResponseDto responseDto = taskService.findTaskDetails(userId, taskId);
         return ResponseEntity.ok(responseDto);
     }
 
-    @PutMapping("/tasks/{taskId}")
+    @PutMapping("/projects/{projectId}/tasks/{taskId}")
     public ResponseEntity<TaskResponseDto> updateTask(@PathVariable Long taskId,
                                                       @RequestHeader("X-USER-ID") Long userId,
                                                       @RequestBody TaskUpdateRequestDto requestDto) {
@@ -50,7 +50,7 @@ public class TaskController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @DeleteMapping("/tasks/{taskId}")
+    @DeleteMapping("/projects/{projectId}/tasks/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId,
                                            @RequestHeader("X-USER-ID") Long userId) {
 
@@ -58,7 +58,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/tasks/{taskId}/tags")
+    @PostMapping("/projects/{projectId}/tasks/{taskId}/tags")
     public ResponseEntity<Void> addTagToTask(@PathVariable Long taskId,
                                              @RequestHeader("X-USER-ID") Long userId,
                                              @RequestBody TaskAddTagRequestDto requestDto) {
@@ -67,7 +67,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/tasks/{taskId}/tags/{tagId}")
+    @DeleteMapping("/projects/{projectId}/tasks/{taskId}/tags/{tagId}")
     public ResponseEntity<Void> removeTagFromTask(@PathVariable Long taskId,
                                                   @PathVariable Long tagId,
                                                   @RequestHeader("X-USER-ID") Long userId) {

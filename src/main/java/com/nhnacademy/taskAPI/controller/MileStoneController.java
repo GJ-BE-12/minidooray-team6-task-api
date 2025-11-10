@@ -35,7 +35,7 @@ public class MileStoneController {
         return ResponseEntity.ok(milestones);
     }
 
-    @PutMapping("/milestones/{milestoneId}")
+    @PutMapping("/projects/{projectId}/milestones/{milestoneId}")
     public ResponseEntity<MileStoneResponseDto> updateMilestone(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long milestoneId,
@@ -45,7 +45,7 @@ public class MileStoneController {
         return ResponseEntity.ok(updateMilestone);
     }
 
-    @DeleteMapping("/milestones/{milestoneId}")
+    @DeleteMapping("/projects/{projectId}/milestones/{milestoneId}")
     public ResponseEntity<Void> deleteMilestone(
             @RequestHeader("X-USER-ID") Long accountId,
             @PathVariable Long milestoneId) {

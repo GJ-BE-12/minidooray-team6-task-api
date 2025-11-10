@@ -36,7 +36,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         projectAuthService.checkProjectAdmin(adminId, project);
 
         for (ProjectMemberAddRequestDto requestDto : requestDtoList) {
-            Long accountIdToAdd = requestDto.getAccountId();
+            Long accountIdToAdd = requestDto.getId();
 
             if (projectMemberRepository.existsByAccountIdAndProjectId(projectId, accountIdToAdd)) {
                 continue;
