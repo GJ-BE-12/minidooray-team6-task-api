@@ -1,0 +1,25 @@
+server:
+  port: 8082
+  address: 0.0.0.0
+spring:
+  datasource:
+    url: jdbc:mysql://10.116.64.14:13306/nhn_academy_16
+#    url: jdbc:mysql://220.67.216.14:13306/nhn_academy_16
+    username: nhn_academy_16
+    password: ANQDj5vXfM@1vTo@
+
+  jpa:
+    hibernate:
+
+      ddl-auto: update
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+api:
+  account:
+    url: http://172.27.40.92:8081
+  gateway:
+    url: http://172.20.97.32:8080

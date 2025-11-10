@@ -1,0 +1,45 @@
+package com.nhnacademy.taskAPI.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "comment")
+public class Comment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @NotNull
+    @Column(name = "writer_id")
+    private Long writerId;
+
+    @NotNull
+    @Lob
+    @Column(name = "content")
+    private String content;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+
+    public Comment(Task task, Long writerId, String content) {
+        this.task = task;
+        this.writerId = writerId;
+        this.content = content;
+    }
+
+    public void updateComment(@NotBlank(message = "댓글 내용은 필수입니다.") String content) {
+        this.content = content;
+    }
+}
