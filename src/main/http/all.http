@@ -1,0 +1,244 @@
+# --- [설정] ---
+# TaskApi 서버 주소
+@baseUrl = http://10.201.235.221:8082
+
+# --- 사용자 ID 변수 ---
+@adminId_P1 = 1
+@memberId_P1_A = 101
+@memberId_P1_B = 102
+
+@adminId_P2 = 2
+@memberId_P2_A = 201
+
+# --- 생성될 리소스 ID 변수 ---
+# 실행 후, 생성된 실제 ID로 이 값들을 수정하고 [TEST]와 [CLEANUP]을 실행하세요.
+@projectId_1 = 1
+@projectId_2 = 2
+
+@milestoneId_P1_1 = 1
+@milestoneId_P1_2 = 2
+
+@tagId_P1_1 = 1
+@tagId_P1_2 = 2
+@tagId_P2_1 = 3
+
+@taskId_P1_1 = 1
+@taskId_P1_2 = 2
+
+@commentId_P1_1 = 1
+@commentId_P1_2 = 2
+
+
+### ======================================================
+### [SETUP] 1. 테스트 데이터 생성 (순서대로 실행)
+### ======================================================
+
+### [C] 1-1. 프로젝트 1 생성 (Admin: 1)
+POST {{baseUrl}}/projects
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{
+  "name": "NHN-TASK-API-PROJECT (P1)"
+}
+
+### [C] 1-2. 프로젝트 2 생성 (Admin: 2)
+POST {{baseUrl}}/projects
+Content-Type: application/json
+X-USER-ID: {{adminId_P2}}
+
+{
+  "name": "SIDE-PROJECT (P2)"
+}
+
+### [C] 1-3. 프로젝트 1에 멤버 추가 (Admin: 1)
+POST {{baseUrl}}/projects/{{projectId_1}}/members
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+[
+  { "accountId": {{memberId_P1_A}} },
+  { "accountId": {{memberId_P1_B}} }
+]
+
+### [C] 1-4. 프로젝트 2에 멤버 추가 (Admin: 2)
+POST {{baseUrl}}/projects/{{projectId_2}}/members
+Content-Type: application/json
+X-USER-ID: {{adminId_P2}}
+
+[
+  { "accountId": {{memberId_P2_A}} }
+]
+
+### [C] 1-5. 프로젝트 1에 마일스톤 2개 생성 (Admin: 1)
+POST {{baseUrl}}/projects/{{projectId_1}}/milestones
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{ "name": "P1-M1-Sprint" }
+
+###
+POST {{baseUrl}}/projects/{{projectId_1}}/milestones
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{ "name": "P1-M2-Release" }
+
+### [C] 1-6. 각 프로젝트에 태그 생성
+# P1 태그 2개 (Admin: 1)
+POST {{baseUrl}}/projects/{{projectId_1}}/tags
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{ "name": "P1-Backend" }
+
+###
+POST {{baseUrl}}/projects/{{projectId_1}}/tags
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{ "name": "P1-Urgent" }
+
+### P2 태그 1개 (Admin: 2)
+POST {{baseUrl}}/projects/{{projectId_2}}/tags
+Content-Type: application/json
+X-USER-ID: {{adminId_P2}}
+
+{ "name": "P2-Frontend" }
+
+### [C] 1-7. 프로젝트 1에 태스크 2개 생성
+# 태스크 1 (작성자: 멤버 A)
+POST {{baseUrl}}/projects/{{projectId_1}}/tasks
+Content-Type: application/json
+X-USER-ID: {{memberId_P1_A}}
+
+{
+  "title": "P1-T1: 로그인 API 개발",
+  "content": "JWT 기반 인증 로직 구현"
+}
+
+### 태스크 2 (작성자: 멤버 B)
+POST {{baseUrl}}/projects/{{projectId_1}}/tasks
+Content-Type: application/json
+X-USER-ID: {{memberId_P1_B}}
+
+{
+  "title": "P1-T2: UI 버그 수정",
+  "content": "로그인 버튼 CSS 깨짐 현상"
+}
+
+### [C] 1-8. 태스크 1에 댓글 2개 생성
+# 댓글 1 (작성자: 멤버 B)
+POST {{baseUrl}}/tasks/{{taskId_P1_1}}/comments
+Content-Type: application/json
+X-USER-ID: {{memberId_P1_B}}
+
+{ "content": "API 명세서 공유 부탁드립니다." }
+
+### 댓글 2 (작성자: 관리자)
+POST {{baseUrl}}/tasks/{{taskId_P1_1}}/comments
+Content-Type: application/json
+X-USER-ID: {{adminId_P1}}
+
+{ "content": "확인했습니다. Wiki에 업로드하겠습니다." }
+
+### [C] 1-9. 태스크에 태그 할당
+# 태스크 1에 태그 2개 할당 (멤버 A)
+POST {{baseUrl}}/tasks/{{taskId_P1_1}}/tags
+X-USER-ID: {{memberId_P1_A}}
+Content-Type: application/json
+
+{ "tagId": {{tagId_P1_1}} }
+
+###
+POST {{baseUrl}}/tasks/{{taskId_P1_1}}/tags
+X-USER-ID: {{memberId_P1_A}}
+Content-Type: application/json
+
+{ "tagId": {{tagId_P1_2}} }
+
+
+### ======================================================
+### [TEST] 2. 조회, 수정, 권한 테스트
+### ======================================================
+
+### [R] 프로젝트 목록 조회 (멤버 A는 P1만 보여야 함)
+GET {{baseUrl}}/projects
+X-USER-ID: {{memberId_P1_A}}
+
+### [R] 프로젝트 상세 조회 (P1 멤버가 P1 조회 -> 성공)
+GET {{baseUrl}}/projects/{{projectId_1}}
+X-USER-ID: {{memberId_P1_A}}
+
+### [R] 🔴 실패 테스트: 다른 프로젝트 조회 (P2 멤버가 P1 조회 -> 실패해야 함)
+# 예상 결과: 403 Forbidden (MemberAccessDeniedException)
+GET {{baseUrl}}/projects/{{projectId_1}}
+X-USER-ID: {{memberId_P2_A}}
+
+### [U] 태스크 수정 및 마일스톤 할당 (작성자 본인 -> 성공)
+PUT {{baseUrl}}/tasks/{{taskId_P1_1}}
+X-USER-ID: {{memberId_P1_A}}
+Content-Type: application/json
+
+{
+  "title": "[수정] P1-T1: 로그인 API 개발",
+  "content": "OAuth2 추가 구현 필요",
+  "milestoneId": {{milestoneId_P1_1}}
+}
+
+### 1번 태스크의 제목과 내용을 수정
+PUT http://10.201.235.221:8082/tasks/1
+X-USER-ID: 101
+Content-Type: application/json
+
+{
+  "title": "수정된 태스크 제목",
+  "content": "수정된 태스크 내용",
+  "mileStoneId": 1
+}
+
+
+### [U] 🔴 실패 테스트: 관리자가 아닌 멤버가 프로젝트 상태 변경 시도
+# 예상 결과: 403 Forbidden
+PATCH {{baseUrl}}/projects/{{projectId_1}}/status
+Content-Type: application/json
+X-USER-ID: {{memberId_P1_A}}
+
+{ "status": "CLOSED" }
+
+### [U] 🔴 실패 테스트: 다른 프로젝트의 태그를 할당하려는 시도
+# P1의 태스크에 P2의 태그를 할당 (tagId_P2_1)
+# 예상 결과: 403 Forbidden 또는 404 Not Found (구현에 따라 다름)
+POST {{baseUrl}}/tasks/{{taskId_P1_1}}/tags
+X-USER-ID: {{memberId_P1_A}}
+Content-Type: application/json
+
+{ "tagId": {{tagId_P2_1}} }
+
+
+### ======================================================
+### [CLEANUP] 3. 생성된 데이터 삭제 (의존성 역순)
+### ======================================================
+
+# -- 주석 처리된 삭제 요청들 --
+# 필요한 경우 주석을 해제하고 ID를 맞춰서 실행하세요.
+
+# ### [D] 태스크 1에서 태그 1 해제
+# DELETE {{baseUrl}}/tasks/{{taskId_P1_1}}/tags/{{tagId_P1_1}}
+# X-USER-ID: {{adminId_P1}}
+
+# ### [D] 댓글 1 삭제
+# DELETE {{baseUrl}}/comments/{{commentId_P1_1}}
+# X-USER-ID: {{adminId_P1}}
+
+# ### [D] 태스크 2 삭제
+# DELETE {{baseUrl}}/tasks/{{taskId_P1_2}}
+# X-USER-ID: {{adminId_P1}}
+
+# ### [D] 프로젝트 1 전체 삭제 (연관된 모든 데이터가 Cascade로 삭제됨)
+# DELETE {{baseUrl}}/projects/{{projectId_1}}
+# X-USER-ID: {{adminId_P1}}
+
+# ### [D] 프로젝트 2 전체 삭제
+# DELETE {{baseUrl}}/projects/{{projectId_2}}
+# X-USER-ID: {{adminId_P2}}
